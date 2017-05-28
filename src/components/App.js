@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
 import SearchBar from './search_bar';
 import VideoList from './video_list';
@@ -30,9 +31,11 @@ class App extends Component {
   };
 
   render() {
+    //throttling - our function can only be called once every 300 miliseconds
+    const videoSearch = _.debounce(this.videoSearch, 300);
     return (
       <div>
-        <SearchBar onSearchTermChange={this.videoSearch} />
+        <SearchBar onSearchTermChange={videoSearch} />
         <VideoDetail video={this.state.selectedVideo} />
 
         <VideoList
